@@ -43,18 +43,15 @@ struct ResultView: View {
             
             switch result {
             case .audio(_):
-                Button {
-                } label: {
-                    RepeatAudioView()
-                }
-                .shadow(color: .black.opacity(0.2), radius: 3, x: 0, y: 5)
-                .padding(.top, 179)
+                RepeatAudioView()
+                    .shadow(color: .black.opacity(0.2), radius: 3, x: 0, y: 5)
+                    .padding(.top, 179)
                 
             case .text(let translatedText):
                 SpeechBubbleView(text: translatedText)
                     .padding(.top, 91)
                     .padding(.horizontal, 50)
-
+                
             case .none:
                 EmptyView()
             }

@@ -1,5 +1,5 @@
 //
-//  SpeechRecordingView.swift
+//  RecordingIndicatorView.swift
 //  PetTranslator
 //
 //  Created by Zabroda Gleb on 06.02.2025.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Lottie
 
-struct SpeechRecordingView: View {
+struct RecordingIndicatorView: View {
     let state: TranslationState
     
     private let animationName = "speakingAnimation"
@@ -17,7 +17,7 @@ struct SpeechRecordingView: View {
     
     var body: some View {
         VStack(spacing: 24) {
-            lottieView
+            recordingAnimationView
             textLabel
         }
         .background(.white)
@@ -26,20 +26,24 @@ struct SpeechRecordingView: View {
     }
     
     @ViewBuilder
-    private var lottieView: some View {
-        if state == .idle {
+    private var recordingAnimationView: some View {
+        switch state {
+        case .idle:
             Image("microphone")
-             .padding(.top, 44)
-             .padding(.horizontal, 54)
-        } else {
+                .padding(.top, 44)
+                .padding(.horizontal, 54)
+        case .recording:
             LottieView(animation: .named(animationName))
                 .playing(loopMode: .autoReverse)
                 .resizable()
                 .frame(width: 163, height: 95)
                 .padding(.top, 19)
                 .padding(.horizontal, 7.5)
+        default:
+            EmptyView()
         }
     }
+
     
     private var textLabel: some View {
         Text(state == .idle ? buttonTextNotStarted : buttonTextStarted)
@@ -49,9 +53,9 @@ struct SpeechRecordingView: View {
     }
 }
 
-struct SpeechRecordingView_Previews: PreviewProvider {
+struct RecordingIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
-        SpeechRecordingView(state: .translating)
+        RecordingIndicatorView(state: .translating)
     }
 }
 
